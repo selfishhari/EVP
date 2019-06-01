@@ -30,7 +30,7 @@
   ![alt text](https://discuss.pytorch.org/uploads/default/original/2X/6/6ef68adb9d9910f82ffabdc53adc3abd842f6885.png)
   
   
-  **How many times a 3 * 3 kernel should be used to get to 1 * 1 image size from 199 * 199**
+  **How many times a 3 * 3 kernel should be used to get to 1 * 1 image size from 199 * 199?**
   
     Running 1 3*3 kernel reduces image size by n-2. So nearly about (199-1)/2 = 98 kernels need to be used. Below is calculations:
     
