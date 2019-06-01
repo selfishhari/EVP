@@ -11,4 +11,4 @@
   2. In order for a network or a system to be able to classify images or image processing tasks, it is important that the system understands various parts and features of image. Like it should be able to recognise different objects, to do that it needs to know parts of objects, textures and patterns, edges and gradients.
   3. Extraction of these features from images can be done by using a filter that is convolved on pixel values of images. These filters are called kernels.
   4. Kernels are basically n*n matrices, like below
-![alt text] (http://www.davidsbatista.net/assets/images/2018-03-31_dpln_0412_cnn.png)
+  ![alt text](http://www.davidsbatista.net/assets/images/2018-03-31_dpln_0412_cnn.png)
