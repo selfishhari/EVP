@@ -12,3 +12,4 @@
   3. Extraction of these features from images can be done by using a filter that is convolved on pixel values of images. These filters are called kernels.
   4. Kernels are basically n*n matrices, like below
   ![alt text](http://www.davidsbatista.net/assets/images/2018-03-31_dpln_0412_cnn.png)
+  5.Always choose odd number of kernels, even numbers have no middle point, hence it becomes tough to use the available matrix values to distribute filter values across left and right. This will lead to wasting a lot pixel values.
