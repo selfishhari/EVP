@@ -27,7 +27,7 @@
   4. LCD screens use RGB channels.
   5. Newspapers and prints use CMYK channels.Cyan, Magenta, Yellow, and Black to display the same images.
   6. A channel is a bag of one type of kernel output. For eg: if we run 32 different kernels on an image, we will have 32 channels, each one having the output of one particular filter(or kernel) convolved on the image
-  ![alt text](http://www.davidsbatista.net/assets/images/2018-03-31_dpln_0412_cnn.png)
+  ![alt text](https://discuss.pytorch.org/uploads/default/original/2X/6/6ef68adb9d9910f82ffabdc53adc3abd842f6885.png)
   
   
   **How many times a 3*3 kernel should be used to get to 1*1 image size from 199* 199**
