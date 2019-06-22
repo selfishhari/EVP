@@ -1,3 +1,24 @@
+**Receptive Field Calculation for Inception Network**
+
+In the following paper https://arxiv.org/pdf/1409.4842.pdf it is mentioned that the Receptive Field of the network is 224*224
+
+However upon calculating, I found that the maximum receptive field, that the network has is 683.
+
+Following 2 formulae, are mainly helpful.
+
+Jout = Jin * s
+
+RFout = RFin + (k-2)*Jin
+
+Jout - Jump out
+Jin  - Jump in
+s    - Stride
+RF   - Receptive Field
+
+Below are the calculations.
+
+
+
 | Kernel    | s | Jout | Jin | RFout                                                                                               | RFin                                                                                                                                                                                                                                                                                                    |
 |-----------|---|------|-----|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 7*7       | 2 | 2    | 1   | 7                                                                                                   | 1                                                                                                                                                                                                                                                                                                       |
