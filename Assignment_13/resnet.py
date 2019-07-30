@@ -120,7 +120,7 @@ def _shortcut(input_feature, residual, conv_name_base=None, bn_name_base=None):
                           strides=(stride_width, stride_height),
                           padding="valid",
                           kernel_initializer="he_normal",
-                          kernel_regularizer=l2(0.0001),
+                          kernel_regularizer=l2(1.e-4),
                           name=conv_name_base)(input_feature)
         if bn_name_base is not None:
             bn_name_base = bn_name_base + '1'
@@ -194,7 +194,7 @@ def basic_block(filters, stage, block, transition_strides=(1, 1),
                        dilation_rate=dilation_rate,
                        padding="same",
                        kernel_initializer="he_normal",
-                       kernel_regularizer=l2(1e-4),
+                       kernel_regularizer=l2(1.e-4),
                        name=conv_name_base + '2a')(input_features)
         else:
             x = residual_unit(filters=filters, kernel_size=(3, 3),
@@ -233,7 +233,7 @@ def bottleneck(filters, stage, block, transition_strides=(1, 1),
                        dilation_rate=dilation_rate,
                        padding="same",
                        kernel_initializer="he_normal",
-                       kernel_regularizer=l2(1e-4),
+                       kernel_regularizer=l2(1.e-4),
                        name=conv_name_base + '2a')(input_feature)
         else:
             x = residual_unit(filters=filters, kernel_size=(1, 1),

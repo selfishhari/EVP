@@ -120,7 +120,7 @@ def _shortcut(input_feature, residual, conv_name_base=None, bn_name_base=None):
                           strides=(stride_width, stride_height),
                           padding="valid",
                           kernel_initializer="he_normal",
-                          kernel_regularizer=l2(0.0001),
+                          kernel_regularizer=l2(1.e-4),
                           name=conv_name_base)(input_feature)
         if bn_name_base is not None:
             bn_name_base = bn_name_base + '1'
@@ -188,12 +188,13 @@ def basic_block(filters, stage, block, transition_strides=(1, 1),
         conv_name_base, bn_name_base = _block_name_base(stage, block)
         if is_first_block_of_first_layer:
             # don't repeat bn->relu since we just did bn->relu->maxpool
+            
             x = Conv2D(filters=filters, kernel_size=(3, 3),
-                       strides=transition_strides,
+                       strides=(1,1), #Since this is just after maxpool, no need for stride 2 here
                        dilation_rate=dilation_rate,
                        padding="same",
                        kernel_initializer="he_normal",
-                       kernel_regularizer=l2(1e-4),
+                       kernel_regularizer=l2(1.e-4),
                        name=conv_name_base + '2a')(input_features)
         else:
             x = residual_unit(filters=filters, kernel_size=(3, 3),
@@ -232,7 +233,7 @@ def bottleneck(filters, stage, block, transition_strides=(1, 1),
                        dilation_rate=dilation_rate,
                        padding="same",
                        kernel_initializer="he_normal",
-                       kernel_regularizer=l2(1e-4),
+                       kernel_regularizer=l2(1.e-4),
                        name=conv_name_base + '2a')(input_feature)
         else:
             x = residual_unit(filters=filters, kernel_size=(1, 1),
@@ -281,6 +282,24 @@ def _string_to_function(identifier):
             raise ValueError('Invalid {}'.format(identifier))
         return res
     return identifier
+
+def _initial_block(img_input, initial_filters, initial_kernel_size, initial_strides, blocks=3):
+        
+        x = img_input
+        
+        max_filters = initial_filters
+        
+        for i in range(blocks):
+            
+            cur_filters = max_filters//(2**(3-(i+1)))
+            
+            if cur_filters < 16:
+                
+                cur_filters = 16
+                
+            x = _conv_bn_relu(filters=cur_filters, kernel_size=initial_kernel_size,
+                      strides=initial_strides)(x)
+        return x
 
 
 def ResNet(input_shape=None, classes=10, block='bottleneck', residual_unit='v2',
@@ -385,12 +404,22 @@ def ResNet(input_shape=None, classes=10, block='bottleneck', residual_unit='v2',
                                       require_flatten=include_top)
 
     img_input = Input(shape=input_shape, tensor=input_tensor)
+    
+    #Instead of 7*7 with stride 2 have 4-3*3 stride 1 and then a maxpool
+    
+    x = _initial_block(img_input, initial_filters, initial_kernel_size=(3,3), initial_strides=(1,1))
+    
+    
+        
+    """
     x = _conv_bn_relu(filters=initial_filters, kernel_size=initial_kernel_size,
-                      strides=initial_strides)(img_input)
+                      strides=initial_strides)(img_input)"""
+    
     if initial_pooling == 'max':
         x = MaxPooling2D(pool_size=(3, 3), strides=initial_strides, padding="same")(x)
 
     block = x
+    
     filters = initial_filters
     for i, r in enumerate(repetitions):
         transition_dilation_rates = [transition_dilation_rate] * r
@@ -437,7 +466,7 @@ def ResNet(input_shape=None, classes=10, block='bottleneck', residual_unit='v2',
 def ResNet18(input_shape, classes):
     """ResNet with 18 layers and v2 residual units
     """
-    return ResNet(input_shape, classes, basic_block, repetitions=[2, 2, 2, 2])
+    return ResNet(input_shape, classes, basic_block, repetitions=[3, 3, 2])
 
 
 def ResNet34(input_shape, classes):
