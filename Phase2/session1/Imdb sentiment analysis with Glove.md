@@ -5,4 +5,4 @@ Train Accuracy: 96.67
 
 Test Accuracy: 78.31
 
-![alt text]("https://github.com/selfishhari/EVP/blob/master/Phase2/session1/accuracy_plot.png")
+![alt text](https://github.com/selfishhari/EVP/blob/master/Phase2/session1/accuracy_plot.png)
